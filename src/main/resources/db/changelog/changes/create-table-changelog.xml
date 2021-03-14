@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+
+
+	<changeSet id="1" author="Paris">
+		<!-- data user -->
+		<createTable tableName="user">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="last_name" type="varchar(250)" />
+			<column name="first_name" type="varchar(250)" />
+			<column name="email" type="varchar(550)">
+				<constraints unique="true" uniqueConstraintName="email"
+					nullable="false" />
+			</column>
+			<column name="password" type="varchar(255)" />
+			<column name="role" type="varchar(8)" />
+			<column name="created_by" type="varchar(255)"/>
+			<column name="created_date" type="date"/>
+			<column name="last_modified_by" type="varchar(255)"/>
+			<column name="last_modified_date" type="date"/>
+		</createTable>
+
+		<!-- data product -->
+		<createTable tableName="product">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints unique="true" uniqueConstraintName="product_name"
+					nullable="false" />
+			</column>
+			<column name="price" type="double" />
+			<column name="category_id" type="bigint">
+				<constraints 
+					notNullConstraintName="category_ID" />
+			</column>
+		</createTable>
+
+		<!-- data product -->
+		<createTable tableName="category">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints unique="true" uniqueConstraintName="category_name"
+					nullable="false" />
+			</column>
+		</createTable>
+
+
+		<addAutoIncrement tableName="user" columnName="id"
+			columnDataType="bigint" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="product" columnName="id"
+			columnDataType="bigint" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="category"
+			columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+
+		<createSequence sequenceName="hibernate_sequence"
+			incrementBy="1" startValue="1" />
+
+		<addForeignKeyConstraint
+			baseTableName="product" baseColumnNames="category_id"
+			constraintName="category_id_fk" referencedTableName="category"
+			referencedColumnNames="id" />
+	</changeSet>
+</databaseChangeLog>

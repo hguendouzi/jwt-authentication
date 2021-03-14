@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet author="Paris" id="2">
+
+		<insert tableName="user">
+			<column name="last_name" value="Admin" />
+			<column name="first_name" value="Admin" />
+			<column name="email" value="admin@admin.fr" />
+			<column name="password" value="$2a$10$yVHKMpcv4vf1eIXnAIirQ.iwHKpUm04jBEW3rx72IcCp2slhII1Hi" />
+			<column name="role" value="ADMIN" />
+		</insert>
+
+
+		<!--- -insert category -->
+		<insert tableName="category">
+			<column name="name" value="Fruits and Vegetables" />
+		</insert>
+
+		<insert tableName="category">
+			<column name="name" value="Frozen" />
+		</insert>
+
+		<insert tableName="category">
+			<column name="name" value="Boissons" />
+		</insert>
+
+		<!--- -insert product -->
+		<insert tableName="product">
+			<column name="name" value="banana" />
+			<column name="price" value="1.50" />
+			<column name="category_id" value="1" />
+		</insert>
+		<insert tableName="product">
+			<column name="name" value="potato" />
+			<column name="price" value="2.50" />
+			<column name="category_id" value="1" />
+		</insert>
+
+		<insert tableName="product">
+			<column name="name" value="ice" />
+			<column name="price" value="3.0" />
+			<column name="category_id" value="2" />
+		</insert>
+
+		<insert tableName="product">
+			<column name="name" value="Red-Bull" />
+			<column name="price" value="2.25" />
+			<column name="category_id" value="3" />
+		</insert>
+
+
+	</changeSet>
+
+</databaseChangeLog>
