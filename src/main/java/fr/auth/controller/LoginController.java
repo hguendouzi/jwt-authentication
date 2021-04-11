@@ -21,10 +21,12 @@ import fr.auth.service.LoginService;
 public class LoginController {
 	@Autowired
 	private LoginService loginService;
+	
 
 	@PostMapping(value = "/login")
 	public @ResponseBody String  login(@Valid @RequestBody LoginDto loginDto) throws GlobalException {
 		return loginService.login(loginDto);
 	}
-
+	
+	
 }

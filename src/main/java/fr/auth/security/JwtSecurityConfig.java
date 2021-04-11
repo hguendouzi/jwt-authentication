@@ -3,6 +3,7 @@ package fr.auth.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 /**
  * 
@@ -29,6 +31,9 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 	private CustomUserDetailsServiceImpl userDetailsService;
 	@Autowired
 	private AuthenticationEntryPointImpl authenticationEntryPoint;
+	
+	@Autowired
+    private CustomLogoutHandler logoutHandler;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -58,6 +63,12 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/login/**").permitAll();
 		http.authorizeRequests().antMatchers("/h2/**").permitAll();
 		http.authorizeRequests().anyRequest().authenticated();
+	
+		//default URL(/login)
+		http.logout().addLogoutHandler(logoutHandler)
+		.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
+		.clearAuthentication(true).invalidateHttpSession(true);
+		
 		http.addFilterBefore(new JWTAuthorizationFilter(new JwtToken()), UsernamePasswordAuthenticationFilter.class);
 		
 	}

@@ -73,7 +73,7 @@ public class CategoryController {
 	 */
 	@DeleteMapping(value = "/delete/{name}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public @ResponseBody  List<CategoryDto>deleteCatgory(@PathVariable String name) throws GlobalException {
+	public @ResponseBody  List<CategoryDto> deleteCatgory(@PathVariable String name) throws GlobalException {
 		return categoryService.deleteByName(name);
 	}
 
