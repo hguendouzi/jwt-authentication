@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,16 +24,17 @@ import fr.auth.model.User;
  * @author GUENDOUZI Hicham
  *
  */
+
 public class JwtAutentificationFilter extends UsernamePasswordAuthenticationFilter {
-
+	
+	
+	@Autowired
 	private AuthenticationManager authenticationManager;
-
+	
+	@Autowired
 	private JwtToken token;
-
-	public JwtAutentificationFilter(AuthenticationManager authenticationManager, JwtToken token) {
-		this.authenticationManager = authenticationManager;
-		this.token = token;
-	}
+    
+	
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -53,5 +55,5 @@ public class JwtAutentificationFilter extends UsernamePasswordAuthenticationFilt
 			Authentication authResult) throws IOException, ServletException {
 		response.addHeader(GlobalConstants.TOKEN_HEADER, GlobalConstants.TOKEN_PREFIX + token.createToken(authResult));
 	}
-
+	
 }
