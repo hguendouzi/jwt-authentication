@@ -5,7 +5,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,15 +39,7 @@ class UserServiceImpTest {
 	
 	
 
-	@BeforeEach
-	void setUp() throws Exception {
-	
 
-		
-	
-	}
-
-	@Test
 	@DisplayName("Test service save or update user")
 	void should_be_save_or_update_user() throws GlobalException {
 		when(repository.save(mapper.toUser(mockData.mockUserDto()))).thenReturn(mockData.mockUser());
