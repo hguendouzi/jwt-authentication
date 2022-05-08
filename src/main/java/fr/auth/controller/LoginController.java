@@ -27,7 +27,7 @@ public class LoginController {
 
 	@PostMapping(value = "/login")
 	public @ResponseBody void  login(@Valid @RequestBody LoginDto loginDto, HttpServletResponse response) throws GlobalException {
-		response.setHeader(GlobalConstants.TOKEN_HEADER,loginService.login(loginDto));
+		response.setHeader(GlobalConstants.ACCESS_TOKEN,loginService.login(loginDto));
 	}
 	
 	
