@@ -1,15 +1,7 @@
 package fr.auth.security;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,20 +9,25 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.Claims;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 
  * @author GUENDOUZI Hicham
  *
  */
+@RequiredArgsConstructor
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
-	private JwtToken jwtToken;
+	private final JwtToken jwtToken;
 
-	public JWTAuthorizationFilter(JwtToken jwtToken) {
-		this.jwtToken = jwtToken;
-	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -38,7 +35,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 		String token = jwtToken.getJwtFromRequest(request);
 		if (StringUtils.isNoneBlank(token) && jwtToken.validateToken(token)) {
-			SecurityContextHolder.getContext().getAuthentication();
 			Claims claims = jwtToken.getClaimsFromToken(token);
 			String email = claims.getSubject();
 			@SuppressWarnings("unchecked")
@@ -48,10 +44,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 			UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(email, null,
 					authorities);
 			SecurityContextHolder.getContext().setAuthentication(user);
-
 		}
 		filterChain.doFilter(request, response);
 	}
-	
+
 
 }

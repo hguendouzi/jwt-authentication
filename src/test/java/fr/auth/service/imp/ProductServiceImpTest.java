@@ -1,24 +1,23 @@
 package fr.auth.service.imp;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-
+import fr.auth.dto.ProductDto;
+import fr.auth.exception.GlobalException;
+import fr.auth.mapper.ProductMapper;
+import fr.auth.repository.ProductRepository;
+import fr.auth.utils.MockData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import fr.auth.dto.ProductDto;
-import fr.auth.exception.GlobalException;
-import fr.auth.mapper.ProductMapper;
-import fr.auth.model.Product;
-import fr.auth.repository.ProductRepository;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 /***
  * 
@@ -30,29 +29,23 @@ class ProductServiceImpTest {
     
 	@InjectMocks
 	private ProductServiceImp service;
-	
 	@Mock
 	private ProductRepository repository;
-	
-	private final ProductMapper mapper=Mappers.getMapper(ProductMapper.class);
-	
-	private Product product;
+	@Mock
+	private  ProductMapper mapper;
+
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		product=new Product();
-		product.setName("coca");
-		product.setPrice(1.5);
-		
 	}
 
 	@Test
 	@DisplayName("Test save or update product")
 	void should_be_save_or_update_product() throws GlobalException {
-		ProductDto dto = new ProductDto();
-		dto.setName("coca");
-		when(repository.save(mapper.toProduct(dto))).thenReturn(product);
-		ProductDto response = service.saveOrUpdateProduct(dto);
+		when(mapper.toProduct(Mockito.any(ProductDto.class))).thenReturn(MockData.mockProduct());
+		when(mapper.toProductDto(MockData.mockProduct())).thenReturn(MockData.mockProductDto());
+		when(repository.save(MockData.mockProduct())).thenReturn(MockData.mockProduct());
+		ProductDto response = service.saveOrUpdateProduct(MockData.mockProductDto());
 		assertThat(response).isNotNull();
 		
 	}
@@ -60,7 +53,8 @@ class ProductServiceImpTest {
 	@Test
 	@DisplayName("Test find all product")
 	void should_be_find_all_product() throws GlobalException {
-		when(repository.findAll()).thenReturn(List.of(product));
+		when(mapper.toProductDtos(Mockito.anyList())).thenReturn(List.of(MockData.mockProductDto()));
+		when(repository.findAll()).thenReturn(List.of(MockData.mockProduct()));
 		List<ProductDto> list = service.findAll();
 		assertThat(list).isNotEmpty();	
 	}
@@ -68,9 +62,10 @@ class ProductServiceImpTest {
 	@Test
 	@DisplayName("Test find by name product")
 	void should_be_find_product_by_name() throws GlobalException {
-		when(repository.findByName("coca")).thenReturn(product);
-		ProductDto reponse = service.findByName("coca");;
-		assertThat(mapper.toProduct(reponse)).isNotNull();	
+		when(mapper.toProductDto(MockData.mockProduct())).thenReturn(MockData.mockProductDto());
+		when(repository.findByName("coca")).thenReturn(MockData.mockProduct());
+		ProductDto response = service.findByName("coca");;
+		assertThat(response).isNotNull();
 	}
 
 }

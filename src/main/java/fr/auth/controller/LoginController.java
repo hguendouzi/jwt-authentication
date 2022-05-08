@@ -1,16 +1,17 @@
 package fr.auth.controller;
 
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import fr.auth.constants.GlobalConstants;
+import fr.auth.dto.LoginDto;
+import fr.auth.exception.GlobalException;
+import fr.auth.service.LoginService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.auth.dto.LoginDto;
-import fr.auth.exception.GlobalException;
-import fr.auth.service.LoginService;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * 
@@ -18,14 +19,15 @@ import fr.auth.service.LoginService;
  *
  */
 @RestController
+@RequiredArgsConstructor
 public class LoginController {
-	@Autowired
-	private LoginService loginService;
+
+	private final LoginService loginService;
 	
 
 	@PostMapping(value = "/login")
-	public @ResponseBody String  login(@Valid @RequestBody LoginDto loginDto) throws GlobalException {
-		return loginService.login(loginDto);
+	public @ResponseBody void  login(@Valid @RequestBody LoginDto loginDto, HttpServletResponse response) throws GlobalException {
+		response.setHeader(GlobalConstants.TOKEN_HEADER,loginService.login(loginDto));
 	}
 	
 	

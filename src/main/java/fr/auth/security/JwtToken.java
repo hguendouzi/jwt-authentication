@@ -1,26 +1,18 @@
 package fr.auth.security;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-
+import fr.auth.constants.GlobalConstants;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import fr.auth.constants.GlobalConstants;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -76,7 +68,7 @@ public class JwtToken {
 	public String getJwtFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getHeader(GlobalConstants.TOKEN_HEADER);
 		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith(GlobalConstants.TOKEN_PREFIX)) {
-			return bearerToken.substring(6, bearerToken.length());
+			return bearerToken.substring(7, bearerToken.length());
 		}
 		return null;
 	}

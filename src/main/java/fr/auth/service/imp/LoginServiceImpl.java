@@ -1,17 +1,16 @@
 package fr.auth.service.imp;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import fr.auth.dto.LoginDto;
+import fr.auth.exception.GlobalException;
+import fr.auth.security.JwtToken;
+import fr.auth.service.LoginService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import fr.auth.dto.LoginDto;
-import fr.auth.exception.GlobalException;
-import fr.auth.security.JwtToken;
-import fr.auth.service.LoginService;
 
 
 /**
@@ -20,12 +19,12 @@ import fr.auth.service.LoginService;
  *
  */
 @Service
+@RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
 	
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
-	private JwtToken token;
+
+	private final AuthenticationManager authenticationManager;
+	private final JwtToken token;
 
 	@Override
 	public String login(LoginDto loginDto) throws GlobalException {

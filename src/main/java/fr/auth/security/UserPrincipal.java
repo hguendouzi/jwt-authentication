@@ -1,16 +1,11 @@
 package fr.auth.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import fr.auth.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 
 
 /**
@@ -30,11 +25,6 @@ public class UserPrincipal implements UserDetails {
 	private String password;
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public static UserPrincipal createUser(User user) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
-		return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), authorities);
-	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

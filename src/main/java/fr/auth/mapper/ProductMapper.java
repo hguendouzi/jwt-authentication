@@ -1,15 +1,13 @@
 package fr.auth.mapper;
 
-import java.util.List;
-
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
-
 import fr.auth.dto.ProductDto;
 import fr.auth.model.Category;
 import fr.auth.model.Product;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+
+import java.util.List;
 
 /**
  * 
@@ -17,10 +15,9 @@ import fr.auth.model.Product;
  *
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ProductMapper {
-	
-	ProductMapper INSATNCE = Mappers.getMapper( ProductMapper.class );
+
 	
 	ProductDto toProductDto(Product product);
 	

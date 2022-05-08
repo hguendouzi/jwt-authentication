@@ -1,18 +1,17 @@
 package fr.auth.mapper;
 
-import java.util.List;
-
-import org.mapstruct.Mapper;
-
 import fr.auth.dto.CategoryDto;
 import fr.auth.model.Category;
+import org.mapstruct.Mapper;
+
+import java.util.List;
 
 /**
  * 
  * @author hicham
  *
  */
-@Mapper
+@Mapper(componentModel = "spring", uses = ProductMapper.class)
 public interface CategoryMapper {
 	
 
